@@ -1,0 +1,3 @@
+/home/toby/simulation/topology/magnetohydrodynamics/magnetic-double-helix/analytic_magnetic_field/analytic_magnetic_field/build/CMakeFiles/field_solver.dir
+/home/toby/simulation/topology/magnetohydrodynamics/magnetic-double-helix/analytic_magnetic_field/analytic_magnetic_field/build/CMakeFiles/edit_cache.dir
+/home/toby/simulation/topology/magnetohydrodynamics/magnetic-double-helix/analytic_magnetic_field/analytic_magnetic_field/build/CMakeFiles/rebuild_cache.dir

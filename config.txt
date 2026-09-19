@@ -1,0 +1,12 @@
+# Physical parameters
+I=100000
+a=0.0015
+b=0.00075
+wavevector=448.80
+outer_r=0.003
+N=4
+
+# Numerical parameters
+delta=1e-7
+index_cap=500
+amb_thetas=100
