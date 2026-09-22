@@ -39,6 +39,12 @@ The two build stages are intentionally separate: **Step 2 compiles the C++ solve
 
 ---
 
+# Precompiled Packages
+
+In the "releases" section, you'll find precompiled binaries for Windows-Arm64, Windows-x64, MacOS-silicon, MacOS-Intel, and Linux-x64. The current up-to-date release is the release titled "1". Read on if you wish to compile the packages yourself.
+
+---
+
 # Build Steps
 
 Use this section when the goal is to create a distributable standalone application. The operating-system-specific dependency instructions are in the sections immediately below.
