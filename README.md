@@ -570,32 +570,6 @@ A normal run directory contains:
 
 ---
 
-# Plane/surface contour
-
-For the right-hand strand centerline
-
-```text
-c(z) = (a cos(kz), a sin(kz), z),
-```
-
-the local tangent at `z=0` is
-
-```text
-(0, a k, 1).
-```
-
-For strand 0, the plotting pipeline therefore intersects the exact helical strand surface with the fixed plane
-
-```text
-a k y + z = 0.
-```
-
-The closed branch is followed numerically around the surface and checked for closure and plane-equation residual. For strand `j`, the strand and its local normal plane are both obtained by the azimuthal rotation `2π j/N`, so its new contour is the same rigid rotation of the reference contour. The GUI preview and the generated 3D plot use this same geometry routine.
-
-The old `z=0` circular strand-intersection contours and their dedicated field-around-the-contour plots are no longer generated. The application does, however, generate general magnetic-field maps over the entire `x-y` plane.
-
----
-
 # Distribution checklist
 
 Before giving a standalone package to other users:
