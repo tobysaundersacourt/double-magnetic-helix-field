@@ -336,7 +336,7 @@ The application searches both single-configuration and multi-configuration CMake
 
 # Automated cross-platform builds with GitHub Actions
 
-This repository now includes:
+This repository includes:
 
 ```text
 .github/workflows/build-standalone.yml
