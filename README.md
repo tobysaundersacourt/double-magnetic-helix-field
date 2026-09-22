@@ -39,7 +39,7 @@ The two build stages are intentionally separate: **Step 2 compiles the C++ solve
 
 ---
 
-# Numbered build procedure
+# Build Steps
 
 Use this section when the goal is to create a distributable standalone application. The operating-system-specific dependency instructions are in the sections immediately below.
 
