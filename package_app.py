@@ -69,6 +69,12 @@ def main() -> None:
         "--workpath", str(ROOT / "pyinstaller-build"),
         "--specpath", str(ROOT / "pyinstaller-build"),
         "--add-binary", f"{solver}:bin",
+        # Pillow's ImageTk integration loads these modules dynamically.
+        # PyInstaller can miss them (especially on Linux), which causes
+        # Matplotlib's Tk toolbar to fail at runtime with errors such as
+        # "No module named PIL._tkinter_finder" / "PyImagingPhoto".
+        "--hidden-import", "PIL._imagingtk",
+        "--hidden-import", "PIL._tkinter_finder",
     ]
     if args.mode == "onefile":
         cmd.append("--onefile")
