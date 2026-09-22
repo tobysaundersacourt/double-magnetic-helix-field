@@ -143,17 +143,39 @@ jobs:
       - name: Install Boost headers
         shell: pwsh
         run: |
+          # Use the normal Boost release archive, not the alternative CMake
+          # source archive. This project expects the traditional flattened
+          # header layout: <BOOST_ROOT>/boost/...
           $boostVersion = '1.92.0'
-          $archive = Join-Path $env:RUNNER_TEMP "boost-$boostVersion-cmake.zip"
-          $url = "https://github.com/boostorg/boost/releases/download/boost-$boostVersion/boost-$boostVersion-cmake.zip"
-          Invoke-WebRequest -Uri $url -OutFile $archive
-          Expand-Archive -Path $archive -DestinationPath $env:RUNNER_TEMP -Force
-          $boost = Join-Path $env:RUNNER_TEMP "boost-$boostVersion"
-          if (-not (Test-Path (Join-Path $boost 'boost'))) {
-            throw "Boost headers were not found under $boost"
+          $boostVersionUnderscore = $boostVersion.Replace('.', '_')
+          $archive = Join-Path $env:RUNNER_TEMP "boost_$boostVersionUnderscore.zip"
+          $extractDir = Join-Path $env:RUNNER_TEMP 'boost-release'
+          $url = "https://archives.boost.io/release/$boostVersion/source/boost_$boostVersionUnderscore.zip"
+
+          if (Test-Path $extractDir) {
+            Remove-Item $extractDir -Recurse -Force
           }
+          New-Item -ItemType Directory -Path $extractDir | Out-Null
+
+          Write-Host "Downloading Boost from $url"
+          curl.exe -L --fail --retry 3 --output $archive $url
+          if ($LASTEXITCODE -ne 0) {
+            throw "Failed to download Boost $boostVersion"
+          }
+
+          Expand-Archive -Path $archive -DestinationPath $extractDir -Force
+          $boost = Join-Path $extractDir "boost_$boostVersionUnderscore"
+          $requiredHeader = Join-Path $boost 'boost\math\special_functions\bessel.hpp'
+
+          if (-not (Test-Path $requiredHeader)) {
+            Write-Host 'Top-level extracted directories:'
+            Get-ChildItem $extractDir -Directory | ForEach-Object { Write-Host "  $($_.FullName)" }
+            throw "Boost header was not found at $requiredHeader"
+          }
+
           "BOOST_ROOT=$boost" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Host "BOOST_ROOT=$boost"
+          Write-Host "Verified header: $requiredHeader"
 
       - name: Verify native ARM64 Python
         shell: pwsh
