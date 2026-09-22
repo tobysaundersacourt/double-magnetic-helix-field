@@ -596,14 +596,6 @@ The old `z=0` circular strand-intersection contours and their dedicated field-ar
 
 ---
 
-# Ripple fix / interpolation
-
-The original contour lookup selected the nearest discrete solver sample, producing visible small jumps as the selected index changed. The application instead interpolates on the solver's native polar rings: angular interpolation is periodic, and neighboring radial rings are linearly interpolated.
-
-The C++ output writer uses high-precision floating-point output so coordinate and field values are not unnecessarily quantized before post-processing.
-
----
-
 # Distribution checklist
 
 Before giving a standalone package to other users:
