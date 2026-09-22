@@ -14,7 +14,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-from build_solver import build
+from build_solver import build, find_solver
 
 ROOT = Path(__file__).resolve().parent
 
@@ -30,6 +30,11 @@ def main() -> None:
                     help="onedir is recommended for first builds and scientific Python apps")
     ap.add_argument("--boost-root", default=os.environ.get("BOOST_ROOT", ""))
     ap.add_argument("--clean", action="store_true", help="remove previous CMake/PyInstaller outputs")
+    ap.add_argument(
+        "--skip-solver-build",
+        action="store_true",
+        help="reuse an already-built solver from build/ instead of invoking CMake again",
+    )
     ap.add_argument("--name", default="AnalyticMagneticField")
     args = ap.parse_args()
 
@@ -43,7 +48,16 @@ def main() -> None:
             if d.exists():
                 shutil.rmtree(d)
 
-    solver = build(build_dir, args.boost_root, clean=args.clean)
+    if args.skip_solver_build:
+        solver = find_solver(build_dir)
+        if solver is None:
+            raise SystemExit(
+                "--skip-solver-build was requested, but no field_solver executable "
+                "was found under build/. Run build_solver.py first."
+            )
+        print(f"Using existing solver: {solver}")
+    else:
+        solver = build(build_dir, args.boost_root, clean=args.clean)
 
     cmd = [
         pyinstaller,
